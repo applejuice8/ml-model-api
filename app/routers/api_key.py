@@ -20,8 +20,9 @@ async def signup(req: AuthRequest, db: Session = Depends(get_db)):
     ph.verify(user.password, req.password)
 
     # Create API key
-    key = APIKey(key=secrets.token_urlsafe(32), user_id=user.id)
-    db.add(ph.hash(key))
+    raw_key = secrets.token_urlsafe(32)
+    key = APIKey(key=ph.hash(raw_key), user_id=user.id)
+    db.add(key)
     db.commit()
 
-    return APIKeyResponse(api_key=key)
+    return APIKeyResponse(key=raw_key)

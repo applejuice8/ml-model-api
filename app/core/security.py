@@ -13,4 +13,4 @@ async def validate_api_key(api_key: str, db: Session):
     if not db_key:
         return False
     
-    return db_key.user_id
+    return db_key

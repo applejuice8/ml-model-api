@@ -34,3 +34,6 @@ class APIKey(Base):
     user: Mapped['User'] = relationship(        # type: ignore
         back_populates='api_keys'
 	)
+    records: Mapped[list['Record']] = relationship(    # type: ignore
+        back_populates='api_key'
+    )
