@@ -1,2 +1,3 @@
 fastapi[standard]
 sqlalchemy
+argon2-cffi
