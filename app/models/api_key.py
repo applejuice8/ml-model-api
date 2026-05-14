@@ -1,6 +1,6 @@
 from app.db.database import Base
-from sqlalchemy import String, DateTime, func, Boolean, Enum, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, DateTime, func, Boolean, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Literal
 
 class APIKey(Base):
@@ -21,13 +21,16 @@ class APIKey(Base):
     )
     is_active: Mapped[bool] = mapped_column(
         Boolean,
-        default=False
+        default=True
     )
     created_at: Mapped[DateTime] = mapped_column(
         DateTime,
         server_default=func.now()
     )
-
-    user: Mapped[str] = mapped_column(
+    user_id: Mapped[int] = mapped_column(
         ForeignKey('user.id')
-    )
+	)
+
+    user: Mapped['User'] = relationship(        # type: ignore
+        back_populates='api_keys'
+	)
