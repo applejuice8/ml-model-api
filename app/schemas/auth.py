@@ -15,7 +15,4 @@ class AuthRequest(BaseModel):
     )
 
 class AuthResponse(BaseModel):
-    status: str = Field(
-        ...,
-        Literal('success', 'failure')
-    )
+    status: Literal['success', 'failure']

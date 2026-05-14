@@ -15,8 +15,8 @@ class APIKey(Base):
         nullable=False,
         unique=True
     )
-    role: Mapped[str] = mapped_column(
-        Literal('user', 'admin'),
+    role: Mapped[Literal['user', 'admin']] = mapped_column(
+        String,
         default='user'
     )
     is_active: Mapped[bool] = mapped_column(
