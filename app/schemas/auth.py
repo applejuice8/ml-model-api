@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
+from typing import Literal
 
-class UsernamePassword(BaseModel):
+class AuthRequest(BaseModel):
     username: str = Field(
         ...,
         min_length=3,
@@ -13,11 +14,8 @@ class UsernamePassword(BaseModel):
         max_length=20,
     )
 
-class SignupRequest(UsernamePassword):
-    pass
-
-class LoginRequest(UsernamePassword):
-    pass
-
 class AuthResponse(BaseModel):
-    api_key: str
+    status: str = Field(
+        ...,
+        Literal('success', 'failure')
+    )
