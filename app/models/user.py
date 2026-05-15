@@ -9,7 +9,7 @@ class User(Base):
         primary_key=True,
         autoincrement=True
     )
-    username: Mapped[int] = mapped_column(
+    username: Mapped[str] = mapped_column(
         String(20),
         nullable=False,
         unique=True

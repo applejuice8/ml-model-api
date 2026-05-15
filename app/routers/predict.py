@@ -1,8 +1,9 @@
-from fastapi import APIRouter, status, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.schemas.predict import PredictRequest, PredictResponse
 from app.dependencies import get_db, validate_api_key
-from app.models import Record
+from app.models import Record, APIKey
+from app.services.predict import record_api_usage
 
 
 router = APIRouter(prefix='/predict', tags=['predict'])
@@ -10,17 +11,9 @@ router = APIRouter(prefix='/predict', tags=['predict'])
 @router.post('/v1', response_model=PredictResponse)
 async def predict(
     req: PredictRequest,
-    api_key: str = Header(..., alias='X-API-KEY'),
+    db_key: APIKey = Depends(validate_api_key),
     db: Session = Depends(get_db)
 ):
-    # Validate API key
-    db_key = validate_api_key(api_key, db)
-    if not db_key:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail='Invalid API key')
-
-    # Add usage record
-    record = Record(api_key_id=db_key.id)
-    db.add(record)
-    db.commit()
+    record = record_api_usage(db_key, db)
 
     return PredictResponse(prediction=[1, 2, 3])
