@@ -4,7 +4,8 @@ class PredictRequest(BaseModel):
     X_data: list[str | int] = Field(
         ...,
         min_length=1,
-        example=[10, 20, 30]
+        example=[10, 20, 30],
+        alias='X-data'
     )
 
 class PredictResponse(BaseModel):

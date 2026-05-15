@@ -7,10 +7,12 @@ from app.models.api_key import APIKey
 
 ph = PasswordHasher(time_cost=2, memory_cost=65536, parallelism=2)
 
-async def validate_api_key(api_key: str, db: Session):
-    # Check if API key exists
-    db_key = db.query(APIKey).where(APIKey.key == api_key).first()
-    if not db_key:
-        return False
-    
-    return db_key
+def validate_api_key(api_key: str, db: Session):
+    db_keys = db.query(APIKey).where(APIKey.is_active == True).all()
+    for db_key in db_keys:
+        try:
+            if ph.verify(db_key.key, api_key):
+                return db_key
+        except Exception:
+            continue
+    return None

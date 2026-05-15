@@ -7,7 +7,7 @@ from app.models import Record
 
 router = APIRouter(prefix='/predict', tags=['predict'])
 
-@router.post('/predict', response_model=PredictResponse)
+@router.post('/v1', response_model=PredictResponse)
 async def predict(
     req: PredictRequest,
     api_key: str = Header(..., alias='X-API-KEY'),
@@ -16,9 +16,11 @@ async def predict(
     # Validate API key
     db_key = validate_api_key(api_key, db)
     if not db_key:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, detail='API key does not exists')
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail='Invalid API key')
 
     # Add usage record
     record = Record(api_key_id=db_key.id)
+    db.add(record)
+    db.commit()
 
-    return PredictResponse([1, 2, 3])
+    return PredictResponse(prediction=[1, 2, 3])
