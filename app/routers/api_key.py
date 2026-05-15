@@ -21,7 +21,11 @@ async def signup(req: AuthRequest, db: Session = Depends(get_db)):
 
     # Create API key
     raw_key = secrets.token_urlsafe(32)
-    key = APIKey(key=ph.hash(raw_key), user_id=user.id)
+    key = APIKey(
+        key=ph.hash(raw_key),
+        prefix=raw_key[:8],
+        user_id=user.id
+    )
     db.add(key)
     db.commit()
 

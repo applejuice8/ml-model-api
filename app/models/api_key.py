@@ -11,9 +11,13 @@ class APIKey(Base):
         autoincrement=True
     )
     key: Mapped[int] = mapped_column(
-        String(100),
+        String(50),
         nullable=False,
         unique=True
+    )
+    prefix: Mapped[int] = mapped_column(
+        String(8),
+        nullable=False,
     )
     role: Mapped[Literal['user', 'admin']] = mapped_column(
         String,

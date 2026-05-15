@@ -12,11 +12,8 @@ curl -X POST http://127.0.0.1:8000/api-key/create -H "Content-Type: application/
 
 # Sample API Key
 
-o0FmJXG3h2zzDdWkno2Byk0gQUM8YuBqDvaA5Nn_et8
+TE2bn0hqqMtudQ7TAXQ_Q14_l0iAVdNWFo6DHSYx5qk
 
 # Test Predict
 
-curl -X POST http://127.0.0.1:8000/predict/v1 -H "Content-Type: application/json" -H "X-API-KEY: o0FmJXG3h2zzDdWkno2Byk0gQUM8YuBqDvaA5Nn_et8" -d '{"X-data": [1, 2, 3]}'
-
-
-X-API-KEY
+curl -X POST http://127.0.0.1:8000/predict/v1 -H "Content-Type: application/json" -H "X-API-KEY: TE2bn0hqqMtudQ7TAXQ_Q14_l0iAVdNWFo6DHSYx5qk" -d '{"X-data": [1, 2, 3]}'
