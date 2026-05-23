@@ -1,3 +1,5 @@
 fastapi[standard]
 sqlalchemy
 argon2-cffi
+kagglehub[pandas-datasets]
+scikit-learn
