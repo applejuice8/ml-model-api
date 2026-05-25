@@ -4,6 +4,9 @@ from app.schemas.predict import PredictRequest, PredictResponse
 from app.dependencies import get_db, validate_api_key
 from app.models import APIKey
 from app.services.predict import record_api_usage
+import joblib
+
+model = joblib.load('ml/models/spam_detector.pkl')
 
 
 router = APIRouter(tags=['predict'])
@@ -15,6 +18,6 @@ async def predict(
     db: Session = Depends(get_db)
 ):
     record = record_api_usage(db_key, db)
-    prediction = list(map(lambda x: x**2, req.X_data))
+    prediction = model.predict(req.X_data)
 
     return PredictResponse(prediction=prediction)

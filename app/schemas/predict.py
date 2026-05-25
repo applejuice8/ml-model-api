@@ -1,10 +1,9 @@
 from pydantic import BaseModel, Field
 
 class PredictRequest(BaseModel):
-    X_data: list[str | int] = Field(
+    X_data: list[str] = Field(
         ...,
         min_length=1,
-        example=[10, 20, 30],
         alias='X-data'
     )
 
